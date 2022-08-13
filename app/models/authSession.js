@@ -15,6 +15,6 @@ const field = {
     }
 }
 
-const appAuthSessionSchema = (field, {timestamps: true})
+const appAuthSessionSchema = mongoose.Schema(field, { timestamps: true })
 
-module.exports= mongoose.model('appAuthSession', appAuthSessionSchema)
+module.exports = mongoose.model('AppAuthSession', appAuthSessionSchema)

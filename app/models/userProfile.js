@@ -18,9 +18,15 @@ const field = {
     },   
     image: {
         type: String,
+    },
+    status:{
+        type: String
+    },
+    rule:{
+        type: String
     }
 }
 
 const appUserProfileSchema = mongoose.Schema(field, {timestamps: true })
 
-module.exports =mongoose.model("AppUserProfile", appUserProfileSchema)
+module.exports =mongoose.model("AppUserProfile", appUserProfileSchema) 
