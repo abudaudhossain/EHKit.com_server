@@ -1,4 +1,5 @@
 const handlers = require("../exceptions/handlers")
+const NotFoundError = require("../exceptions/NotFoundError")
 const nativeResponse = require("../helpers/nativeResponse")
 const helper = require("../helpers/validation/helper")
 const AppUserProfile = require("../models/userProfile")
@@ -70,17 +71,34 @@ module.exports = {
     },
 
     login: async (req, res) => {
+        const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        let message = "login Success";
+        const { email } = req.body
         try {
 
+            //@ business part and validation part
+            const userAccounts = await AppUserProfile.find({ email: email })
+            let userAccount = userAccounts[0];
+            if (userAccounts.length === 0) throw new NotFoundError("This email account not found please signup first");
 
+
+            const jwToken = await createAuthSession(userAccount.token, ipAddress)
+            const user = {
+                name: userAccount.name,
+                email: userAccount.email,
+                rule: userAccount.rule,
+                status: userAccount.status,
+                jwt: jwToken
+            }
 
             nativeResponse({
                 "dataState": "success",
                 "responseStatus": "success",
-                "message": "your request is successful",
+                "message": message,
                 "errorLog": "",
-                "data": { data: "Login success" }
+                "data": { user }
             }, 200, res)
+
         } catch (error) {
             handlers({
                 'errorLog': {
