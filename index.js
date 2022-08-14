@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const port = process.env.PORT || 3000; 
 
-
+app.use(cors())
 app.use(express.json({ 
   limit: "500mb"
 }));
@@ -16,7 +16,8 @@ app.use(express.urlencoded({
 }));
 
 //database connection with mongoose
-const dbURL = `mongodb://localhost:27017/${process.env.DB_NAME}`;
+// const dbURL = `mongodb://localhost:27017/${process.env.DB_NAME}`;
+const dbURL = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.bqqvk.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 mongoose.connect(dbURL, {
   useNewUrlParser: true,
@@ -30,7 +31,7 @@ db.once('open', () => console.log("Mong DB connect success"));
 
 app.use('/', require('./routes/api'))
 
-
+ 
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`)

@@ -43,6 +43,7 @@ module.exports = {
 
             const jwToken = await createAuthSession(userAccount.token, ipAddress)
             const user = {
+                token: userAccount.token,
                 name: userAccount.name,
                 email: userAccount.email,
                 rule: userAccount.rule,
@@ -84,6 +85,7 @@ module.exports = {
 
             const jwToken = await createAuthSession(userAccount.token, ipAddress)
             const user = {
+                token: userAccount.token,
                 name: userAccount.name,
                 email: userAccount.email,
                 rule: userAccount.rule,
