@@ -111,5 +111,28 @@ module.exports = {
                 error
             }, res)
         }
+    },
+    getUserProfile: async (req, res) => {
+        let message = "user profile get Success";
+        try {
+            const users = await AppUserProfile.find({ token: req.body.setAppUserToken })
+
+            nativeResponse({
+                "dataState": "success",
+                "responseStatus": "success",
+                "message": message,
+                "errorLog": "",
+                "data": { user: users }
+            }, 200, res)
+        } catch (error) {
+            handlers({
+                'errorLog': {
+                    'location': req.originalUrl.split("/").join("::"),
+                    'query': `WELCOME TO WEBSITE BLOCK`,
+                    'details': `Error : ${error}`
+                },
+                error
+            }, res)
+        }
     }
 }

@@ -15,9 +15,9 @@ app.use(express.urlencoded({
   extended: true, limit: "5mb"
 }));
 
-//database connection with mongoose
-// const dbURL = `mongodb://localhost:27017/${process.env.DB_NAME}`;
-const dbURL = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.bqqvk.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+// database connection with mongoose
+const dbURL = `mongodb://localhost:27017/${process.env.DB_NAME}`;
+// const dbURL = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.bqqvk.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 mongoose.connect(dbURL, {
   useNewUrlParser: true,
