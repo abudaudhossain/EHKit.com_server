@@ -1,4 +1,5 @@
 const nativeResponse = require("../helpers/nativeResponse")
+const NotAcceptableError = require("./NotAcceptableError")
 const NotFoundError = require("./NotFoundError")
 const UnauthorizedError = require("./UnauthorizedError")
 const ValidationError = require("./ValidationError")
@@ -30,6 +31,15 @@ module.exports = (v, res) => {
             "errorLog": v.errorLog,
             "data": {}
         }, 401, res)
+    }
+    else if (v.error instanceof NotAcceptableError) {
+        nativeResponse({
+            "dataState": "error",
+            "responseStatus": "Unauthorized",
+            "message": "Please Try again",
+            "errorLog": v.errorLog,
+            "data": {}
+        }, 406, res)
     }
     else {
         nativeResponse({
