@@ -7,6 +7,7 @@ const AppAuthSession = require("../models/authSession")
 
 module.exports = async (req, res, next) => {
     try {
+        // console.log(req.headers )
         // json web token verification
         const JWToken = req.headers.authorization.split(" ")[1];
 
@@ -28,10 +29,11 @@ module.exports = async (req, res, next) => {
 
         next()
     } catch (error) {
+        console.log(error)
         handlers({
             'errorLog': {
                 'location': req.originalUrl.split("/").join("::"),
-                'query': `WELCOME TO WEBSITE BLOCK`,
+                'query': `WELCOME TO WEBSITE BLOCK IN MIDDLE`,
                 'details': `Error : ${error}`
             },
             error

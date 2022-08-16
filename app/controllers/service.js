@@ -29,9 +29,11 @@ module.exports = {
                 "responseStatus": "success",
                 "message": message,
                 "errorLog": "",
-                "data": { user: updateUser }
+                "data": { user: updateInfo }
             }, 200, res)
+
         } catch (error) {
+            console.log(error)
             handlers({
                 'errorLog': {
                     'location': req.originalUrl.split("/").join("::"),
