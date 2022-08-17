@@ -43,5 +43,33 @@ module.exports = {
                 error
             }, res)
         }
+    },
+
+    addNewProduct: async (req, res) => {
+        let message = "New Product add Success"
+        try {
+
+
+            console.log("new product add")
+
+            nativeResponse({
+                "dataState": "success",
+                "responseStatus": "success",
+                "message": message,
+                "errorLog": "",
+                "data": { product: "new product" }
+            }, 200, res)
+
+        } catch (error) {
+            console.log(error)
+            handlers({
+                'errorLog': {
+                    'location': req.originalUrl.split("/").join("::"),
+                    'query': `WELCOME TO WEBSITE BLOCK`,
+                    'details': `Error : ${error}`
+                },
+                error
+            }, res)
+        }
     }
 }
