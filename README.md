@@ -58,13 +58,13 @@ Ehkit.com website has daily household products. Such as furniture, kitchenware, 
 You can use following method to get started with React Application of the EHKit system.
 
 ### Part 1: Direct Download
-[Dowload from Github](https://github.com/abudaudhossain/EHkit.com/archive/refs/heads/main.zip)
+[Dowload from Github](https://github.com/abudaudhossain/EHKit.com_server/archive/refs/heads/main.zip)
 
 ### Part 2: Using NPM
 Start working with the EHKit system
 1. Clone Git Repo
 ```
-git clone https://github.com/abudaudhossain/EHkit.com
+git clone gh repo clone abudaudhossain/EHKit.com_server
 ```
 2. Install Dependency
 ```
