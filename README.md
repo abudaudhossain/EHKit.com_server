@@ -64,7 +64,7 @@ You can use following method to get started with React Application of the EHKit 
 Start working with the EHKit system
 1. Clone Git Repo
 ```
-git clone gh repo clone abudaudhossain/EHKit.com_server
+git clone abudaudhossain/EHKit.com_server
 ```
 2. Install Dependency
 ```
