@@ -10,14 +10,17 @@ Ehkit.com website has daily household products. Such as furniture, kitchenware, 
 ### Features
 
 - Dynamic Slider Banner
-- Firebase AuthenticaTion
+- Firebase AuthenticaTion and Custom user AuthenticaTion
+- use JsonWebToken (jwt)
+- Use userAuthMiddleware and AdminAuthMiddleware
+- Use Custom Error handler and status code
+- Create user login session
 - Custom User Profile
+- Add new product api, Update product information, get product by token, get all product API
 - Product Query By Furniture and Category
-- Purchase Page
-- Fully Responsive
-- Clean Code
-- User friendly UI.
-- Nice Admin Dashboard.
+- User Order API, get All order by user Token, Admin get All order
+- Get User List by admin, get user profile by token
+
 
 <!-- 
 <a href="https://www.youtube.com/watch?v=3OMj6nqDuAA" title="Hope UI" target="__blank">
@@ -32,6 +35,7 @@ Ehkit.com website has daily household products. Such as furniture, kitchenware, 
 **Database:** 
 - MongoDB
 - Mongoose.
+
 **NPM Package:**
 - jsonwebtoken
 - cros
@@ -43,6 +47,7 @@ Ehkit.com website has daily household products. Such as furniture, kitchenware, 
 # Table of Contents
 
   - [Quick Start](#quick-start)
+  - [Quick Start](#Using-API)
   - [File Structure](#file-structure)
   - [Browser Support](#browser-support)
   - [Follow Us](#follow-us)
@@ -70,9 +75,76 @@ npm install
 ```
 npm start
 ```
-4. Build for production
+
+## Using API
+
+1. Impotent Variable 
 ```
-npm run build
+const baseUrl = "https://ehkit.herokuapp.com";
+or
+const baseUrl = "http://localhost:5000";
+
+const adminJWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVG9rZW4iOiIxOTczM0lJbnJUVXNlclByb1RHbXBsMjQwMTciLCJzZXNzaW9uVG9rZW4iOiI2MjExMmFwRWZCVXNlclNlc3Npb25IVEZuYzg4MDEzIiwiaWF0IjoxNjYwNjQxMTEzfQ.oqkCJPXD5JQYSYOwkduKMJCijYjGQVAig9cSjIApSYM";
+const userJWT = "";
+
+```
+
+1. Create New UserProfile:
+
+```
+  const userAccount = {
+  "name": "User Name",
+  "email": "user email",
+  "rule": "user"
+}
+  axios.post(`${baseUrl}/createAccount`, userAccount)
+    .then(function (response) {
+      console.lot(response)
+      })
+    .catch(function (error) {
+      console.log(error)
+      });
+
+```
+
+
+2. User Login By Email:
+
+```
+  axios.post(`${baseUrl}/login`, { email: email })
+    .then(function (response) {
+      console.lot(response)
+      })
+    .catch(function (error) {
+      console.log(error)
+      });
+
+```
+
+2. Update user Profile:
+
+```
+  axios.post(`${baseUrl}/user/updateProfile`, userProfileData, {
+      headers: {
+        'authorization': `Bearer ${userJWT}`
+      }
+    })
+    .then(function (response) {
+      console.lot(response)
+      })
+    .catch(function (error) {
+      console.log(error)
+      });
+
+```
+
+## EHKit Server API List : 
+```
+ 1. Add new product api: https://ehkit.herokuapp.com/addNewProduct
+ 2. Product update api: https://ehkit.herokuapp.com/product/update
+ 3. Get Product by Token api: https://ehkit.herokuapp.com/product/:producttoken
+ 4. Get All product api: https://ehkit.herokuapp.com/allProduct
+
 ```
 
 ## File Structure
