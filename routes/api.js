@@ -15,4 +15,8 @@ router.post("/user/updateProfile", userAuthMiddleware, service.updateUserProfile
 
 router.post("/addNewProduct", userAuthMiddleware, adminAuthMiddleware, service.addNewProduct) // new product
 router.post("/product/update", userAuthMiddleware, adminAuthMiddleware, service.updateProduct) //  update product
+router.get("/product/:token", service.getProductByToken) //  get product by token
+router.get("/allProduct", service.getAllProduct) //  get all products
+
+
 module.exports = router;

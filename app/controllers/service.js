@@ -145,5 +145,54 @@ module.exports = {
                 error
             }, res)
         }
-    }
+    },
+    getAllProduct: async (req, res) => {
+        let message = "product get Success";
+
+        try {
+            const products = await AppProduct.find({})
+
+            nativeResponse({
+                "dataState": "success",
+                "responseStatus": "success",
+                "message": message,
+                "errorLog": "",
+                "data": { products: products }
+            }, 200, res)
+        } catch (error) {
+            handlers({
+                'errorLog': {
+                    'location': req.originalUrl.split("/").join("::"),
+                    'query': `WELCOME TO WEBSITE BLOCK`,
+                    'details': `Error : ${error}`
+                },
+                error
+            }, res)
+        }
+    },
+    getProductByToken: async (req, res) => {
+        let message = "product get Success";
+        let { token } = req.params;
+        try {
+            console.log(token, "get product")
+            const product = await AppProduct.find({ token: token })
+
+            nativeResponse({
+                "dataState": "success",
+                "responseStatus": "success",
+                "message": message,
+                "errorLog": "",
+                "data": { product: product[0] }
+            }, 200, res)
+        } catch (error) {
+            handlers({
+                'errorLog': {
+                    'location': req.originalUrl.split("/").join("::"),
+                    'query': `WELCOME TO WEBSITE BLOCK`,
+                    'details': `Error : ${error}`
+                },
+                error
+            }, res)
+        }
+    },
 }
