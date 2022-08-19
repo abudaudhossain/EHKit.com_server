@@ -12,6 +12,8 @@ router.post("/login", authentication.login) //  user login
 router.get("/user/profile", userAuthMiddleware, authentication.getUserProfile) //  user profile
 router.post("/user/updateProfile", userAuthMiddleware, service.updateUserProfile) //  user profile
 
+router.get("/users/list", userAuthMiddleware, adminAuthMiddleware, service.getAllUsers) //  user profile
+
 
 router.post("/addNewProduct", userAuthMiddleware, adminAuthMiddleware, service.addNewProduct) // new product
 router.post("/product/update", userAuthMiddleware, adminAuthMiddleware, service.updateProduct) //  update product

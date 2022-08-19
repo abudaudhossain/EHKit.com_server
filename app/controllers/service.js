@@ -46,6 +46,30 @@ module.exports = {
             }, res)
         }
     },
+    getAllUsers: async (req, res) => {
+        let message = "Get all user Success";
+
+        try {
+            const users = await AppUserProfile.find({})
+
+            nativeResponse({
+                "dataState": "success",
+                "responseStatus": "success",
+                "message": message,
+                "errorLog": "",
+                "data": { users: users }
+            }, 200, res)
+        } catch (error) {
+            handlers({
+                'errorLog': {
+                    'location': req.originalUrl.split("/").join("::"),
+                    'query': `WELCOME TO WEBSITE BLOCK`,
+                    'details': `Error : ${error}`
+                },
+                error
+            }, res)
+        }
+    },
 
     addNewProduct: async (req, res) => {
         let message = "New Product add Success"
@@ -195,4 +219,7 @@ module.exports = {
             }, res)
         }
     },
+
+    
+   
 }
