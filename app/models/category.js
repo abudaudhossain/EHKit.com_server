@@ -29,6 +29,6 @@ const field = {
     
 }
 
-const appCategorySchema = (field, {timestamps: true})
+const appCategorySchema = mongoose.Schema(field, {timestamps: true})
 
-module.exports= mongoose.model('appCategory', appCategorySchema)
+module.exports= mongoose.model('AppCategory', appCategorySchema)

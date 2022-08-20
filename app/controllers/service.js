@@ -9,6 +9,7 @@ const NotFoundError = require("../exceptions/NotFoundError");
 const AppUserProfile = require("../models/userProfile")
 const AppProduct = require("../models/products");
 const AppFeatures = require("../models/features");
+const AppCategory = require("../models/category");
 
 module.exports = {
     updateUserProfile: async (req, res) => {
@@ -233,6 +234,8 @@ module.exports = {
             helper.objExit(['title', 'description', 'image', 'route'], req.body)
             helper.isEmpty([title, description, image, route]);
 
+            const features = await AppFeatures.find({ route: route })
+            if (features.length !== 0) throw new NotAcceptableError("This route already exit😎")
             //@ business part
             const token = helper.getToken("FEAT")
             // console.log("token", token)
@@ -290,5 +293,104 @@ module.exports = {
                 error
             }, res)
         }
-    }
+    },
+    addCategory: async (req, res) => {
+        let message = "New Feature add Success"
+        const { title, description, image, route, featureToken, setAppUserToken } = req.body
+        try {
+            //@ validation part
+            //check email and name validated
+            helper.objExit(['title', 'description', 'image', 'route', 'featureToken'], req.body)
+            helper.isEmpty([title, description, image, route, featureToken]);
+
+            const features = await AppFeatures.find({ token: featureToken })
+            if (features.length === 0) throw new NotFoundError("This feature not fount in our database😎")
+            const catagories = await AppCategory.find({ route: route })
+            if (catagories.length !== 0) throw new NotAcceptableError("This route already exit😎")
+            //@ business part
+            const token = helper.getToken("CATE")
+            // console.log("token", token)
+            const newCategory = new AppCategory({
+                token,
+                title,
+                image,
+                description,
+                route,
+                userToken: setAppUserToken,
+                featureToken,
+                status: "active"
+            })
+            await newCategory.save();
+
+
+            nativeResponse({
+                "dataState": "success",
+                "responseStatus": "success",
+                "message": message,
+                "errorLog": "",
+                "data": { category: newCategory }
+            }, 200, res)
+
+        } catch (error) {
+            console.log(error)
+            handlers({
+                'errorLog': {
+                    'location': req.originalUrl.split("/").join("::"),
+                    'query': `WELCOME TO WEBSITE BLOCK`,
+                    'details': `Error : ${error}`
+                },
+                error
+            }, res)
+        }
+    },
+    getCategoryByFeatures: async (req, res) => {
+        let message = "get Category by feature"
+        let { featureToken } = req.params;
+        try {
+
+            const catagories = await AppCategory.find({ featureToken: featureToken })
+            nativeResponse({
+                "dataState": "success",
+                "responseStatus": "success",
+                "message": message,
+                "errorLog": "",
+                "data": { catagories }
+            }, 200, res)
+        } catch (error) {
+            console.log(error)
+            handlers({
+                'errorLog': {
+                    'location': req.originalUrl.split("/").join("::"),
+                    'query': `WELCOME TO WEBSITE BLOCK`,
+                    'details': `Error : ${error}`
+                },
+                error
+            }, res)
+        }
+    },
+    getAllCategories: async (req, res) => {
+        let message = "get all Categories"
+        try {
+
+            const catagories = await AppCategory.find({})
+            nativeResponse({
+                "dataState": "success",
+                "responseStatus": "success",
+                "message": message,
+                "errorLog": "",
+                "data": { catagories }
+            }, 200, res)
+        } catch (error) {
+            console.log(error)
+            handlers({
+                'errorLog': {
+                    'location': req.originalUrl.split("/").join("::"),
+                    'query': `WELCOME TO WEBSITE BLOCK`,
+                    'details': `Error : ${error}`
+                },
+                error
+            }, res)
+        }
+    },
+
 }
