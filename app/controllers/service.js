@@ -2,9 +2,13 @@ const handlers = require("../exceptions/handlers");
 const NotAcceptableError = require("../exceptions/NotAcceptableError");
 const nativeResponse = require("../helpers/nativeResponse");
 const helper = require("../helpers/validation/helper");
+const NotFoundError = require("../exceptions/NotFoundError");
+
+
+// model
 const AppUserProfile = require("../models/userProfile")
 const AppProduct = require("../models/products");
-const NotFoundError = require("../exceptions/NotFoundError");
+const AppFeatures = require("../models/features");
 
 module.exports = {
     updateUserProfile: async (req, res) => {
@@ -220,6 +224,71 @@ module.exports = {
         }
     },
 
-    
-   
+    addNewFeature: async (req, res) => {
+        let message = "New Feature add Success"
+        const { title, description, image, route, setAppUserToken } = req.body
+        try {
+            //@ validation part
+            //check email and name validated
+            helper.objExit(['title', 'description', 'image', 'route'], req.body)
+            helper.isEmpty([title, description, image, route]);
+
+            //@ business part
+            const token = helper.getToken("FEAT")
+            // console.log("token", token)
+            const newFeature = new AppFeatures({
+                token,
+                title,
+                image,
+                description,
+                route,
+                userToken: setAppUserToken,
+                status: "active"
+            })
+            await newFeature.save();
+
+
+            nativeResponse({
+                "dataState": "success",
+                "responseStatus": "success",
+                "message": message,
+                "errorLog": "",
+                "data": { feature: newFeature }
+            }, 200, res)
+
+        } catch (error) {
+            console.log(error)
+            handlers({
+                'errorLog': {
+                    'location': req.originalUrl.split("/").join("::"),
+                    'query': `WELCOME TO WEBSITE BLOCK`,
+                    'details': `Error : ${error}`
+                },
+                error
+            }, res)
+        }
+    },
+    getFeatures: async (req, res) => {
+        let message = "Get all Features Success"
+        try {
+            const features = await AppFeatures.find({});
+            nativeResponse({
+                "dataState": "success",
+                "responseStatus": "success",
+                "message": message,
+                "errorLog": "",
+                "data": { features }
+            }, 200, res)
+        } catch (error) {
+            console.log(error)
+            handlers({
+                'errorLog': {
+                    'location': req.originalUrl.split("/").join("::"),
+                    'query': `WELCOME TO WEBSITE BLOCK`,
+                    'details': `Error : ${error}`
+                },
+                error
+            }, res)
+        }
+    }
 }

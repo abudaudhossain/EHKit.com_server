@@ -26,6 +26,6 @@ const field = {
     
 }
 
-const appFeaturesSchema = (field, {timestamps: true})
+const appFeaturesSchema =  mongoose.Schema(field, { timestamps: true })
 
-module.exports= mongoose.model('appFeatures', appFeaturesSchema)
+module.exports= mongoose.model('AppFeatures', appFeaturesSchema)
